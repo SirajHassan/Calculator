@@ -15,7 +15,7 @@ class CalculationForm(forms.ModelForm):
 	#validation
 	def clean_calculation(self, *args, **kwargs):
 		calculation = self.cleaned_data.get("calculation")
-		allowed_symbols = set('0','1','2','3','4','5','6','7','8','9','+','-','/','x','*','^',' ')
+		allowed_symbols = {'0','1','2','3','4','5','6','7','8','9','+','-','/','x','*','^',' '} 
 		invalid = False
 
 		for i in calculation:
