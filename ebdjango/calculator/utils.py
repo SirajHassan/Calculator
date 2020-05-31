@@ -1,6 +1,6 @@
 from simpleeval import simple_eval
 
-#input string of arithmatic. Output string of arithmatic with answer..
+#input string of arithmatic. Output answer. Returns Error if it cannot be determined.
 # will translate common arithmatic symbols (see operator_translations)
 def calculate(s):  
     operator_translations = {'x':'*', '^':'**'} #translations to python
