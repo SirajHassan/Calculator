@@ -6,7 +6,7 @@ from .utils import calculate
 class CalculationForm(forms.ModelForm):
 	#customizing things w/ widgets
 	print("FROMFROM")
-	calc_input = forms.CharField()
+	calc_input = forms.CharField(label = '')
 	class Meta:
 		model = Calculation
 		fields = [
