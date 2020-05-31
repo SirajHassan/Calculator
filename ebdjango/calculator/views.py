@@ -5,13 +5,14 @@ from .models import Calculation
 from .utils import calculate
 
 def calculator_view(request, *args, **kwargs):
-	quereyset = Product.objects.all() #list of all objects
+	quereyset = Calculation.objects.all() #list of all objects
 	form = CalculationForm(request.POST or None) #renders form is post data comes through or empty form 
 	
 	#Deal with form and do calculation 
 	if form.is_valid():
 		calculation = form.cleaned_data['calculation']
 		result = calculate(calculation) #see utls
+		print(result)
 
 		if result == 'ERROR':
 			raise Exception('ERROR in input')
@@ -26,7 +27,7 @@ def calculator_view(request, *args, **kwargs):
 		"calculations_list": quereyset
 	}
 
-	return render(request,"calculator_window.html",context)
+	return render(request,"calculator/calculator_window.html",context)
 
 
 
