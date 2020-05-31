@@ -1,16 +1,61 @@
+{% load static %}
 <!doctype html>
 <html>
+
 	<head>
 		<titel> Calculator </titel>
 	</head>
 	<body>
-		{% block content %}
+		<div>
+			<form action='.' method='POST'> 
+				{% csrf_token %}
+				{{ form.as_p }} <!-- id = id_calculation -->
+				<input type = 'submit' value = 'Calculate' /> 
+			</form>
+		<div>
 
-		 {% endblock %}
-		 
-		{% block content2 %}
+		<h1> {{ obj.result }} </h1>
 
-		{% endblock %}
+
+		<div id = 'table'>
+
+		</div>
+
+
+
+
+
+
+		<!-- ---------------- JAVA SCRIPT --------------------- -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<scirpt src = "{% static 'js/ajax/main.js' %}" ></script>
+
+		{% block javascript %}
+		<script>
+			$(function(){
+				setInterval(timedUpdateFunction, 500);
+			});
+
+			function timedUpdateFunction() {
+				// update table every second
+				$.ajax({
+				        url: '/list_calculations',
+				        data: {
+				  
+				        },
+				        dataType: 'json',
+				        success: function (data) {
+				          document.getElementById('table').innerHTML = data["html"];
+				        }
+				      });
+			}
+    		
+ 		</script>
+ 		{% endblock %}
+
+ 		<!-- ------------------------------------- -->
+
+
 
 	</body>
 </html>

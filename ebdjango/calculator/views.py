@@ -3,37 +3,66 @@ from django.http import Http404
 from .forms import CalculationForm
 from .models import Calculation
 from .utils import calculate
+from django.http import HttpResponse, JsonResponse
+from tabulate import tabulate
+
+import time
+import json
+
 
 def calculator_view(request, *args, **kwargs):
-	quereyset = Calculation.objects.all() #list of all objects
+	
 	form = CalculationForm(request.POST or None) #renders form is post data comes through or empty form 
 	result = ''
+	obj = None 
+
 	#Deal with form and do calculation 
 	if form.is_valid():
-		print("1-------")
 		calculation = form.cleaned_data['calculation']
-		print("2-------")
 		result = calculate(calculation) #see utls
 		print(result)
 
 		if result == 'ERROR':
-			raise Exception('ERROR in input')
+			raise Exception('ERROR in input') ##TODO 
 		else:
-			print("3-------")
-			obj = form.save()
-			print("4-------")
-			obj.result = result #fill result field
+			obj = Calculation(calculation = calculation, result = result, time = time.time())
+			obj.save()
 			form = CalculationForm()
-			print("5-------")
 
-	
+
 	context = { 
 		"form": form,
-		"calculations_list": quereyset,
-		"result" : result,
+		"obj" : obj,
 	}
 
 	return render(request,"calculator/calculator_window.html",context)
+
+
+
+
+#sends data of the last 10 inputs and deletes any extras
+def list_calculations_view(request):
+	ordered_objects = Calculation.objects.all().order_by('-time')
+	i = 0
+	data = []
+	for obj in ordered_objects:
+		if i < 10:
+			data.append(str(obj.calculation) + ' = ' + str(obj.result))
+		else:
+			obj.delete()  #delete old objects
+			
+		i +=1 
+
+	html = tabulate(data, tablefmt='html')
+	return JsonResponse({"html" : html}) #send as JSON
+	
+
+
+
+
+
+
+
 
 
 
