@@ -22,7 +22,7 @@ def calculate(s):
         
     try:
         result = str(simple_eval(''.join(lst))) #evaluates tranlated arithmatic
-        return(''.join([s,' = ',result]))
+        return(result)
     except:
         return ("ERROR")
 
