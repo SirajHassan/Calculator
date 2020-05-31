@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from calculator.views import calculator_view, list_calculations_view
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
 	path('',calculator_view,name='calculator'),
@@ -23,3 +24,5 @@ urlpatterns = [
 	###admin####
     path('admin/', admin.site.urls),
 ]
+
+urlpatterns += staticfiles_urlpatterns()

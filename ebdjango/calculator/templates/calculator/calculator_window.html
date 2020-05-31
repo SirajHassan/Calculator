@@ -3,15 +3,30 @@
 <!doctype html>
 <html>
 	<head>
-		<title> Online Calculator </title>
-		<h1> Online Calculator </h1>
-		<h3> Made by Siraj Hassan </h3>
-		<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+		<center>
+			<title> Online Calculator </title>
+			<h1> Online Calculator </h1>	
+		</center>
+
+
+		<style>	
+		 * {
+		      font-family: "Courier New", Courier, monospace;
+		      font-size: 9;
+		      center: True;
+		    }		
+		</style>
+		
+
 	</head>
+
+
 	<body>
 
+		<center>
+
 		<div id = 'explanation'>
-			<p> The following operations are possible: </p>
+			<h5> Supported operations: + , - , / , (* or x)   </h5>
 		</div>
 
 		<div id = 'calculator_form'>
@@ -24,11 +39,14 @@
 
 		<div id= 'result_display'>
 			<p> 
-				{{ calc_input }} {% if calc_input != '' %} = {% endif %} {{ result }} 
+				{% if output != ' = ' %}
+					{{ output }} 
+				{% endif %}
 			</p>
 			
 		</div>
 
+		<h4> The last 10 calculations done on the website:</h2>
 
 		<div id = 'table'>
 
@@ -73,6 +91,6 @@
 
 
 
-
+ 	</center>
 	</body>
 </html>

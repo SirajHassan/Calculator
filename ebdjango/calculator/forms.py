@@ -17,7 +17,7 @@ class CalculationForm(forms.ModelForm):
 	def clean_calc_input(self, *args, **kwargs):
 		print("HELOLO")
 		calc_input = self.cleaned_data.get("calc_input")
-		allowed_symbols = {'0','1','2','3','4','5','6','7','8','9','+','-','/','x','*','^',' ','(',')'} 
+		allowed_symbols = {'0','1','2','3','4','5','6','7','8','9','+','-','/','x','*',' ','(',')','.'} 
 		result = calculate(calc_input)
 		invalid = False
 
@@ -30,7 +30,7 @@ class CalculationForm(forms.ModelForm):
 
 		if invalid:
 				print("HEELLERLLER")
-				raise forms.ValidationError("Invalid input, Please use digits from 0-9 and the following symbols: '+' , '-', '/' , 'x' , '*' , '^' , ')' , '(' .")
+				raise forms.ValidationError("Invalid input: Please only use numbers, parentheses and supported operations")
 		else:
 
 			return calc_input

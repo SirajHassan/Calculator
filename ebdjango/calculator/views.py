@@ -24,14 +24,13 @@ def calculator_view(request, *args, **kwargs):
 		result = calculate(calc_input)
 		obj = Calculation(calc_input = calc_input, result = result, time = time.time())
 		obj.save()
-		#form = CalculationForm() #resets form 
+		form = CalculationForm() #resets form 
 
 	equals = '='
 
 	context = { 
 		"form": form,
-		"result" : result,
-		"calc_input" : calc_input
+		"output" : calc_input + ' = ' + result ,
 	}
 
 	return render(request,"calculator/calculator_window.html",context)
