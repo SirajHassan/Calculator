@@ -1,12 +1,20 @@
 {% load static %}
+
 <!doctype html>
 <html>
-
 	<head>
-		<titel> Calculator </titel>
+		<title> Online Calculator </title>
+		<h1> Online Calculator </h1>
+		<h3> Made by Siraj Hassan </h3>
+		<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 	</head>
 	<body>
-		<div>
+
+		<div id = 'explanation'>
+			<p> The following operations are possible: </p>
+		</div>
+
+		<div id = 'calculator_form'>
 			<form action='.' method='POST'> 
 				{% csrf_token %}
 				{{ form.as_p }} <!-- id = id_calculation -->
@@ -14,35 +22,38 @@
 			</form>
 		<div>
 
-		<h1> {{ obj.result }} </h1>
+		<div id= 'result_display'>
+			<p> 
+				{{ calc_input }} {% if calc_input != '' %} = {% endif %} {{ result }} 
+			</p>
+			
+		</div>
 
 
 		<div id = 'table'>
 
 		</div>
 
+		<div id = links>
+
+		</div>
 
 
-
-
-
-		<!-- ---------------- JAVA SCRIPT --------------------- -->
+		
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<scirpt src = "{% static 'js/ajax/main.js' %}" ></script>
 
 		{% block javascript %}
 		<script>
 			$(function(){
-				setInterval(timedUpdateFunction, 500);
+				setInterval(timedUpdateFunction, 100);
 			});
 
 			function timedUpdateFunction() {
 				// update table every second
 				$.ajax({
 				        url: '/list_calculations',
-				        data: {
-				  
-				        },
+				        data: {},
 				        dataType: 'json',
 				        success: function (data) {
 				          document.getElementById('table').innerHTML = data["html"];
@@ -53,7 +64,13 @@
  		</script>
  		{% endblock %}
 
- 		<!-- ------------------------------------- -->
+
+
+
+
+
+
+
 
 
 

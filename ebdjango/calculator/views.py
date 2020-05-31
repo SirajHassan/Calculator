@@ -9,30 +9,29 @@ from tabulate import tabulate
 import time
 import json
 
-
+#Deals with form and input of user into calculator
 def calculator_view(request, *args, **kwargs):
 	
-	form = CalculationForm(request.POST or None) #renders form is post data comes through or empty form 
+	form = CalculationForm(request.POST or None) 
 	result = ''
+	calc_input = ''
+	result_string = ''
+	equals = '' 
 	obj = None 
 
-	#Deal with form and do calculation 
 	if form.is_valid():
-		calculation = form.cleaned_data['calculation']
-		result = calculate(calculation) #see utls
-		print(result)
+		calc_input = form.cleaned_data["calc_input"]
+		result = calculate(calc_input)
+		obj = Calculation(calc_input = calc_input, result = result, time = time.time())
+		obj.save()
+		#form = CalculationForm() #resets form 
 
-		if result == 'ERROR':
-			raise Exception('ERROR in input') ##TODO 
-		else:
-			obj = Calculation(calculation = calculation, result = result, time = time.time())
-			obj.save()
-			form = CalculationForm()
-
+	equals = '='
 
 	context = { 
 		"form": form,
-		"obj" : obj,
+		"result" : result,
+		"calc_input" : calc_input
 	}
 
 	return render(request,"calculator/calculator_window.html",context)
@@ -40,14 +39,14 @@ def calculator_view(request, *args, **kwargs):
 
 
 
-#sends data of the last 10 inputs and deletes any extras
+#returns JSON w/ HTML unordered list last 10 inputs and deletes any extras
 def list_calculations_view(request):
 	ordered_objects = Calculation.objects.all().order_by('-time')
 	i = 0
 	data = []
 	for obj in ordered_objects:
 		if i < 10:
-			data.append(str(obj.calculation) + ' = ' + str(obj.result))
+			data.append(str(obj.calc_input) + ' = ' + str(obj.result))
 		else:
 			obj.delete()  #delete old objects
 			

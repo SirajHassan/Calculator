@@ -1,0 +1,27 @@
+#table {
+    font-family: "Courier New", Courier, monospace;
+    border: 2px solid #C5C5C5;
+    background-color: #FFEDDB;
+    width: 90%;
+    text-align: center;
+  }
+  #table td, #table th {
+    border: 0px solid #FFF4D3;
+    padding: 10px 4px;
+  }
+  #table tbody td {
+    font-size: 13px;
+    color: #000000;
+  }
+  #table tr:nth-child(even) {
+    background: #DCC4AB;
+  }
+  #table tfoot td {
+    font-size: 16px;
+ }
+
+ * {
+      font-family: "Courier New", Courier, monospace;
+      font-size: 11
+    }
+
