@@ -5,24 +5,32 @@ from .utils import calculate
 
 class CalculationForm(forms.ModelForm):
 	#customizing things w/ widgets
-	calculation = 	forms.CharField()
+	print("FROMFROM")
+	calc_input = forms.CharField()
 	class Meta:
 		model = Calculation
 		fields = [
-			'calculation',
+			'calc_input',
 		]
 
 	#validation
-	def clean_calculation(self, *args, **kwargs):
-		calculation = self.cleaned_data.get("calculation")
-		allowed_symbols = {'0','1','2','3','4','5','6','7','8','9','+','-','/','x','*','^',' '} 
+	def clean_calc_input(self, *args, **kwargs):
+		print("HELOLO")
+		calc_input = self.cleaned_data.get("calc_input")
+		allowed_symbols = {'0','1','2','3','4','5','6','7','8','9','+','-','/','x','*','^',' ','(',')'} 
+		result = calculate(calc_input)
 		invalid = False
 
-		for i in calculation:
-			if i not in allowed_symbols:
-				invalid = True 
+		if result == 'ERROR':
+			invalid = True
+		else:
+			for i in calc_input:
+				if i not in allowed_symbols:
+					invalid = True 
 
 		if invalid:
-				raise forms.ValidationError("Invalid input, Please use digits from 0-9, and +,-,/,x,*,^,(,) symbols")
+				print("HEELLERLLER")
+				raise forms.ValidationError("Invalid input, Please use digits from 0-9 and the following symbols: '+' , '-', '/' , 'x' , '*' , '^' , ')' , '(' .")
 		else:
-			return calculation
+
+			return calc_input
